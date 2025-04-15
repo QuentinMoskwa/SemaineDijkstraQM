@@ -9,6 +9,7 @@ public class GeoJsonLoader : MonoBehaviour
 {
     [Header("Fichier GeoJSON")]
     public TextAsset geoJsonFile;
+
     [Header("Graph Builder")]
     public GraphBuilder graphBuilder;
 
@@ -17,6 +18,9 @@ public class GeoJsonLoader : MonoBehaviour
 
     [Header("Matériau pour les lignes")]
     public Material lineMaterial;
+
+    [Header("Prefab pour l'affichage du poids")]
+    public GameObject weightPrefab;
 
     [Header("Paramètres d'affichage")]
     public float lineWidth = 2f;
@@ -36,13 +40,13 @@ public class GeoJsonLoader : MonoBehaviour
             return;
         }
 
+        // Créer points et lignes
         foreach (Feature feature in collection.Features)
         {
             if (feature.Geometry == null || string.IsNullOrEmpty(feature.Geometry.Type))
                 continue;
 
             string geomType = feature.Geometry.Type;
-
             if (geomType.Equals("Point", StringComparison.OrdinalIgnoreCase))
             {
                 CreatePoint(feature);
@@ -52,6 +56,7 @@ public class GeoJsonLoader : MonoBehaviour
                 CreateLine(feature);
             }
         }
+        
         graphBuilder.BuildGraphFromGeoJSON(geoJsonFile);
     }
 
@@ -71,8 +76,19 @@ public class GeoJsonLoader : MonoBehaviour
         GameObject pointGO = Instantiate(pointPrefab, pos, Quaternion.identity, transform);
         string name = GetProperty(feature, "name");
         if (!string.IsNullOrEmpty(name))
+        {
             pointGO.name = name;
-            pointGO.GetComponent<PointModel>().pointName = name;
+            PointModel pm = pointGO.GetComponent<PointModel>();
+            if (pm != null)
+            {
+                pm.pointName = name;
+            }
+
+            if (graphBuilder != null)
+            {
+                graphBuilder.AddCity(pointGO.GetComponent<PointModel>(), new Vector2(x, y));
+            }
+        }
     }
 
     void CreateLine(Feature feature)
@@ -110,18 +126,28 @@ public class GeoJsonLoader : MonoBehaviour
         lr.material = lineMaterial;
         lr.startWidth = lineWidth;
         lr.endWidth = lineWidth;
+
         LineModel lm = lineGO.AddComponent<LineModel>();
+        lm.SetCoordinates(positions[0], positions[positions.Count - 1]);
+
         string weight = GetProperty(feature, "weight");
         if (float.TryParse(weight, out float weightValue))
         {
-            lm.SetWeight(weightValue);
+            lm.SetWeight(weightValue, weightPrefab);
         }
         else
         {
             Debug.LogWarning("Poids invalide pour la ligne : " + GetProperty(feature, "id"));
         }
 
+        if (graphBuilder != null)
+        {
+            graphBuilder.AddLine(lm);
+        }
     }
+
+
+
 
     string GetProperty(Feature feature, string key)
     {

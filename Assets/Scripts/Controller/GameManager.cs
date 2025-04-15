@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public GeoJsonLoader geoJsonLoader; // Référence au script GeoJsonLoader
+    public DijkstraManager dijkstraManager;
+    public GeoJsonLoader geoJsonLoader;
     public PointModel currentStart;
     public PointModel currentEnd;
 
@@ -24,9 +25,23 @@ public class GameManager : MonoBehaviour
         currentEnd = point;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnStartButtonClicked()
     {
-        
+        if (currentStart != null && currentEnd != null)
+        {
+            if (dijkstraManager != null)
+            {
+                // dijkstraManager.StartComputePathWithSteps();
+                dijkstraManager.ComputePath();
+            }
+            else
+            {
+                Debug.LogError("dijkstraManager not found in the scene.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Point de départ ou d'arrivée non défini.");
+        }
     }
 }
