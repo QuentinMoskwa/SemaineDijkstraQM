@@ -4,40 +4,43 @@ using Newtonsoft.Json.Linq;
 
 public class GraphBuilder : MonoBehaviour
 {
-    public Dictionary<string, Dictionary<string, float>> graph = new();
+    public Dictionary<PointModel, Dictionary<PointModel, float>> graph = new();
 
-    private Dictionary<Vector2, string> coordToCity = new();
+    private Dictionary<Vector2, PointModel> coordToCity = new();
 
+    public List<LineModel> lines = new List<LineModel>();
+
+    public void AddCity(PointModel city, Vector2 coords)
+    {
+        if (city == null)
+        {
+            Debug.LogWarning("Tentative d'ajouter une ville null dans le graphe.");
+            return;
+        }
+        if (!coordToCity.ContainsKey(coords))
+        {
+            coordToCity[coords] = city;
+        }
+        if (!graph.ContainsKey(city))
+        {
+            graph[city] = new Dictionary<PointModel, float>();
+        }
+    }
+
+    public void AddLine(LineModel line)
+    {
+        if (line != null && !lines.Contains(line))
+        {
+            lines.Add(line);
+        }
+    }
 
     public void BuildGraphFromGeoJSON(TextAsset geoJsonFile)
     {
         JObject root = JObject.Parse(geoJsonFile.text);
         JArray features = root["features"] as JArray;
-
-        if (features == null) return;
-
-        foreach (var feature in features)
-        {
-            string geomType = feature["geometry"]?["type"]?.ToString();
-
-            if (geomType == "Point")
-            {
-                string cityName = feature["properties"]?["name"]?.ToString();
-                JArray coords = feature["geometry"]?["coordinates"] as JArray;
-                if (coords != null && cityName != null)
-                {
-                    float x = coords[0].ToObject<float>();
-                    float y = coords[1].ToObject<float>();
-                    Vector2 pos = new Vector2(x, y);
-
-                    if (!coordToCity.ContainsKey(pos))
-                        coordToCity[pos] = cityName;
-
-                    if (!graph.ContainsKey(cityName))
-                        graph[cityName] = new Dictionary<string, float>();
-                }
-            }
-        }
+        if (features == null)
+            return;
 
         foreach (var feature in features)
         {
@@ -46,22 +49,21 @@ public class GraphBuilder : MonoBehaviour
             {
                 JArray coords = feature["geometry"]?["coordinates"] as JArray;
                 float weight = feature["properties"]?["weight"]?.ToObject<float>() ?? -1;
-
                 if (coords != null && coords.Count == 2)
                 {
                     Vector2 posA = new Vector2(coords[0][0].ToObject<float>(), coords[0][1].ToObject<float>());
                     Vector2 posB = new Vector2(coords[1][0].ToObject<float>(), coords[1][1].ToObject<float>());
 
-                    if (coordToCity.TryGetValue(posA, out string nameA) && coordToCity.TryGetValue(posB, out string nameB))
+                    if (coordToCity.TryGetValue(posA, out PointModel cityA) &&
+                        coordToCity.TryGetValue(posB, out PointModel cityB))
                     {
-                        if (!graph.ContainsKey(nameA)) graph[nameA] = new();
-                        if (!graph.ContainsKey(nameB)) graph[nameB] = new();
+                        if (!graph.ContainsKey(cityA)) graph[cityA] = new Dictionary<PointModel, float>();
+                        if (!graph.ContainsKey(cityB)) graph[cityB] = new Dictionary<PointModel, float>();
 
-                        if (!graph[nameA].ContainsKey(nameB))
-                            graph[nameA][nameB] = weight;
-
-                        if (!graph[nameB].ContainsKey(nameA))
-                            graph[nameB][nameA] = weight; // graphe non-orienté
+                        if (!graph[cityA].ContainsKey(cityB))
+                            graph[cityA][cityB] = weight;
+                        if (!graph[cityB].ContainsKey(cityA))
+                            graph[cityB][cityA] = weight;
                     }
                     else
                     {
@@ -70,20 +72,42 @@ public class GraphBuilder : MonoBehaviour
                 }
             }
         }
-        PrintGraph();
+        // PrintGraph();
     }
 
-    void PrintGraph()
+    // void PrintGraph()
+    // {
+    //     Debug.Log("====== Graphe des connexions entre villes ======");
+    //     foreach (var city in graph)
+    //     {
+    //         string connections = $"{city.Key.gameObject.name} : ";
+    //         foreach (var target in city.Value)
+    //         {
+    //             connections += $"{target.Key.gameObject.name} ({target.Value})  ";
+    //         }
+    //         Debug.Log(connections);
+    //     }
+    // }
+
+    public LineModel GetLineBetween(PointModel a, PointModel b)
     {
-        Debug.Log("====== Graphe des connexions entre villes ======");
-        foreach (var city in graph)
+        foreach (var line in lines)
         {
-            string connections = $"{city.Key} : ";
-            foreach (var target in city.Value)
+            
+            Vector3 startPos = line.coordinates.ContainsKey("start") ? line.coordinates["start"] : Vector3.zero;
+            Vector3 endPos = line.coordinates.ContainsKey("end") ? line.coordinates["end"] : Vector3.zero;
+            
+            if ((ApproximatelyEqual(startPos, a.transform.position) && ApproximatelyEqual(endPos, b.transform.position)) ||
+                (ApproximatelyEqual(startPos, b.transform.position) && ApproximatelyEqual(endPos, a.transform.position)))
             {
-                connections += $"{target.Key} ({target.Value})  ";
+                return line;
             }
-            Debug.Log(connections);
         }
+        return null;
+    }
+
+    private bool ApproximatelyEqual(Vector3 a, Vector3 b, float tolerance = 0.01f)
+    {
+        return Vector3.Distance(a, b) < tolerance;
     }
 }
