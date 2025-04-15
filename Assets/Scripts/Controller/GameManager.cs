@@ -6,6 +6,8 @@ public class GameManager : MonoBehaviour
 {
     public DijkstraManager dijkstraManager;
     public GeoJsonLoader geoJsonLoader;
+    public GeoJsonObjectCreator geoJsonObjectCreator;
+    public PathGenerator pathGenerator;
     public PointModel currentStart;
     public PointModel currentEnd;
 
@@ -13,6 +15,9 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         geoJsonLoader.LoadGeoJson();
+        geoJsonObjectCreator.CreateObjectsFromGeoJson();
+        pathGenerator.GeneratePaths();
+
     }
 
     public void SetCurrentStart(PointModel point)

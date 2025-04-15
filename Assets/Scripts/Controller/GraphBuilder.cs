@@ -4,28 +4,14 @@ using Newtonsoft.Json.Linq;
 
 public class GraphBuilder : MonoBehaviour
 {
+    // Graphe indexé par des PointModel
     public Dictionary<PointModel, Dictionary<PointModel, float>> graph = new();
 
+    // Mapping des points via une projection sur le plan XZ
     private Dictionary<Vector2, PointModel> coordToCity = new();
 
     public List<LineModel> lines = new List<LineModel>();
 
-    public void AddCity(PointModel city, Vector2 coords)
-    {
-        if (city == null)
-        {
-            Debug.LogWarning("Tentative d'ajouter une ville null dans le graphe.");
-            return;
-        }
-        if (!coordToCity.ContainsKey(coords))
-        {
-            coordToCity[coords] = city;
-        }
-        if (!graph.ContainsKey(city))
-        {
-            graph[city] = new Dictionary<PointModel, float>();
-        }
-    }
 
     public void AddLine(LineModel line)
     {
@@ -51,6 +37,7 @@ public class GraphBuilder : MonoBehaviour
                 float weight = feature["properties"]?["weight"]?.ToObject<float>() ?? -1;
                 if (coords != null && coords.Count == 2)
                 {
+                    // On projette sur le plan XZ, en supposant que notre conversion lat/lon a déjà été faite.
                     Vector2 posA = new Vector2(coords[0][0].ToObject<float>(), coords[0][1].ToObject<float>());
                     Vector2 posB = new Vector2(coords[1][0].ToObject<float>(), coords[1][1].ToObject<float>());
 
@@ -72,31 +59,14 @@ public class GraphBuilder : MonoBehaviour
                 }
             }
         }
-        // PrintGraph();
     }
-
-    // void PrintGraph()
-    // {
-    //     Debug.Log("====== Graphe des connexions entre villes ======");
-    //     foreach (var city in graph)
-    //     {
-    //         string connections = $"{city.Key.gameObject.name} : ";
-    //         foreach (var target in city.Value)
-    //         {
-    //             connections += $"{target.Key.gameObject.name} ({target.Value})  ";
-    //         }
-    //         Debug.Log(connections);
-    //     }
-    // }
 
     public LineModel GetLineBetween(PointModel a, PointModel b)
     {
         foreach (var line in lines)
         {
-            
             Vector3 startPos = line.coordinates.ContainsKey("start") ? line.coordinates["start"] : Vector3.zero;
             Vector3 endPos = line.coordinates.ContainsKey("end") ? line.coordinates["end"] : Vector3.zero;
-            
             if ((ApproximatelyEqual(startPos, a.transform.position) && ApproximatelyEqual(endPos, b.transform.position)) ||
                 (ApproximatelyEqual(startPos, b.transform.position) && ApproximatelyEqual(endPos, a.transform.position)))
             {
