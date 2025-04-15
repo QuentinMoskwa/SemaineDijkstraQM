@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 3854910475062862325}
   - component: {fileID: 3614316454382145438}
   - component: {fileID: 893795655039038204}
+  - component: {fileID: -46469656895868291}
   m_Layer: 0
   m_Name: Point
-  m_TagString: Untagged
+  m_TagString: Point
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -120,3 +121,18 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.62
+--- !u!114 &-46469656895868291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5432639641021075686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03c75aba86255fa4a9d26728e862a5d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  neutralColor: {r: 0.67058825, g: 0.67058825, b: 0.67058825, a: 1}
+  startColor: {r: 0, g: 0.7843138, b: 0.3254902, a: 1}
+  endColor: {r: 0.91372555, g: 0.1254902, b: 0.1254902, a: 1}
