@@ -31,7 +31,6 @@ public class UIManager : MonoBehaviour
         {
             previousPoint.SetNeutralColor();
         }
-        Debug.Log("Ouverture du menu pour le point : " + selectedPoint.transform.name);
         if (selectedPoint == null)
         {
             Debug.LogWarning("Clicked object does not have a PointModel component.");

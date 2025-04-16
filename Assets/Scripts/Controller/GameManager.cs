@@ -45,8 +45,25 @@ public class GameManager : MonoBehaviour
         {
             if (dijkstraManager != null)
             {
-                // dijkstraManager.StartComputePathWithSteps();
                 dijkstraManager.ComputePath();
+            }
+            else
+            {
+                Debug.LogError("dijkstraManager not found in the scene.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Point de départ ou d'arrivée non défini.");
+        }
+    }
+    public void OnStepByStepButtonClicked()
+    {
+        if (currentStart != null && currentEnd != null)
+        {
+            if (dijkstraManager != null)
+            {
+                dijkstraManager.ComputePathStepByStep();
             }
             else
             {
