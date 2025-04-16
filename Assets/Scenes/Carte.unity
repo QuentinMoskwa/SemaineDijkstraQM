@@ -209,7 +209,7 @@ MonoBehaviour:
   sphereCenter: {x: 0, y: 0, z: 0}
   sphereRadius: 200
   lineMaterial: {fileID: 2100000, guid: e5015ce20b2d7c74786d538c9a190f86, type: 2}
-  pathsPerCity: 3
+  pathsPerCity: 2
 --- !u!4 &170966966
 Transform:
   m_ObjectHideFlags: 0
@@ -1125,7 +1125,7 @@ MonoBehaviour:
   geoJsonObjectCreator: {fileID: 398620077}
   pathGenerator: {fileID: 170966965}
   graphBuilder: {fileID: 70365125}
-  needToGeneratePath: 1
+  needToGeneratePath: 0
   currentStart: {fileID: 0}
   currentEnd: {fileID: 0}
 --- !u!4 &1049822092
@@ -1488,7 +1488,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Intensity: 1.76
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
