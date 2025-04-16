@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GeoJSONModel;
 
 public class GameManager : MonoBehaviour
 {
@@ -8,16 +9,24 @@ public class GameManager : MonoBehaviour
     public GeoJsonLoader geoJsonLoader;
     public GeoJsonObjectCreator geoJsonObjectCreator;
     public PathGenerator pathGenerator;
+    public GraphBuilder graphBuilder;
+    public bool needToGeneratePath = false;
     public PointModel currentStart;
     public PointModel currentEnd;
 
 
     void Start()
     {
-        geoJsonLoader.LoadGeoJson();
-        geoJsonObjectCreator.CreateObjectsFromGeoJson();
-        pathGenerator.GeneratePaths();
-
+        geoJsonObjectCreator.CreateObjectsFromGeoJson(needToGeneratePath);
+        if(needToGeneratePath)
+        {
+            pathGenerator.GeneratePaths();
+            graphBuilder.BuildGraphFromGeneratedLines();
+        }
+        else
+        {
+            graphBuilder.BuildGraphFromGeoJson();
+        }
     }
 
     public void SetCurrentStart(PointModel point)

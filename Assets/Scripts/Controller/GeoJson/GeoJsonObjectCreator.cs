@@ -36,15 +36,15 @@ public class GeoJsonObjectCreator : MonoBehaviour
     public float earthDiameter = 20f;
 
 
-    public void CreateObjectsFromGeoJson()
+    public void CreateObjectsFromGeoJson(bool generatePath)
     {
-        if (geoJsonLoader == null || geoJsonLoader.featureCollection == null)
+
+        FeatureCollection collection = geoJsonLoader.LoadGeoJson();
+        if (collection == null)
         {
             Debug.LogError("La FeatureCollection n'est pas disponible.");
             return;
         }
-
-        FeatureCollection collection = geoJsonLoader.featureCollection;
         foreach (Feature feature in collection.Features)
         {
             if (feature.Geometry == null || string.IsNullOrEmpty(feature.Geometry.Type))
@@ -55,10 +55,10 @@ public class GeoJsonObjectCreator : MonoBehaviour
             {
                 CreatePoint(feature);
             }
-            // else if (geomType.Equals("LineString", StringComparison.OrdinalIgnoreCase))
-            // {
-            //     CreateLine(feature);
-            // }
+            else if (geomType.Equals("LineString", StringComparison.OrdinalIgnoreCase) && !generatePath)
+            {
+                CreateLine(feature);
+            }
         }
     }
 
@@ -92,11 +92,11 @@ public class GeoJsonObjectCreator : MonoBehaviour
             {
                 pm.pointName = name;
             }
-            // Enregistrement dans le GraphBuilder
+
             if (geoJsonLoader != null && geoJsonLoader.featureCollection != null && graphBuilder != null)
             {
                 Vector2 pos2D = new Vector2(pos.x, pos.z);
-                // graphBuilder.AddCity(pointGO.GetComponent<PointModel>(), pos2D);
+                graphBuilder.AddCity(pointGO.GetComponent<PointModel>(), pos2D);
             }
         }
     }
@@ -134,7 +134,7 @@ public class GeoJsonObjectCreator : MonoBehaviour
         for (int i = 0; i <= lineSegmentCount; i++)
         {
             float t = (float)i / lineSegmentCount;
-            Vector3 pointOnArc = Vector3.zero + Vector3.Slerp(startDir, endDir, t) * earthDiameter;
+            Vector3 pointOnArc = Vector3.zero + Vector3.Slerp(startDir, endDir, t) * (earthDiameter/2f);
             positions.Add(pointOnArc);
         }
 
@@ -159,15 +159,8 @@ public class GeoJsonObjectCreator : MonoBehaviour
         LineModel lm = lineGO.AddComponent<LineModel>();
         lm.SetCoordinates(positions[0], positions[positions.Count - 1]);
 
-        string weight = GetProperty(feature, "weight");
-        if (float.TryParse(weight, out float weightValue))
-        {
-            lm.SetWeight(weightValue, weightPrefab);
-        }
-        else
-        {
-            Debug.LogWarning("Poids invalide pour la ligne : " + GetProperty(feature, "id"));
-        }
+        float weight = ComputeArcDistance(startPos, endPos, Vector3.zero, earthDiameter);
+        lm.SetWeight(weight, weightPrefab);
 
         // Ajoutez éventuellement la ligne au GraphBuilder
         if (graphBuilder != null)
@@ -192,5 +185,13 @@ public class GeoJsonObjectCreator : MonoBehaviour
         float y = radius * Mathf.Sin(latRad);
         float z = radius * Mathf.Cos(latRad) * Mathf.Sin(lonRad);
         return center + new Vector3(x, y, z);
+    }
+
+    public static float ComputeArcDistance(Vector3 posA, Vector3 posB, Vector3 center, float diameter)
+    {
+        Vector3 dirA = (posA - center).normalized;
+        Vector3 dirB = (posB - center).normalized;
+        float angleRad = Vector3.Angle(dirA, dirB) * Mathf.Deg2Rad;
+        return (diameter / 2f) * angleRad;
     }
 }

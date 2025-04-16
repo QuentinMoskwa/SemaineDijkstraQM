@@ -26,22 +26,22 @@ public class LineModel : MonoBehaviour
     {
         weight = newWeight;
         GetComponent<Renderer>().material.color = neutralColor;
-        Vector3 middle = (coordinates["start"] + coordinates["end"]) / 2;
-        GameObject weightGO = Instantiate(weightPrefab, middle, Quaternion.identity, transform);
-        TextMeshProUGUI textMeshPro = null;
+        // Vector3 middle = (coordinates["start"] + coordinates["end"]) / 2;
+        // GameObject weightGO = Instantiate(weightPrefab, middle, Quaternion.identity, transform);
+        // TextMeshProUGUI textMeshPro = null;
 
-        foreach (Transform child in weightGO.transform)
-        {
-            foreach (Transform grandChild in child)
-            {
-                textMeshPro = grandChild.GetComponent<TextMeshProUGUI>();
-                if (textMeshPro != null)
-                {
-                    textMeshPro.text = weight.ToString("F2");
-                    break;
-                }
-            }
-        }
+        // foreach (Transform child in weightGO.transform)
+        // {
+        //     foreach (Transform grandChild in child)
+        //     {
+        //         textMeshPro = grandChild.GetComponent<TextMeshProUGUI>();
+        //         if (textMeshPro != null)
+        //         {
+        //             textMeshPro.text = weight.ToString("F2");
+        //             break;
+        //         }
+        //     }
+        // }
     }
 
     public void SetValidColor()

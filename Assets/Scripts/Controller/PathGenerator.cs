@@ -1,12 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+
 
 public class PathGenerator : MonoBehaviour
 {
     [Header("References")]
-    public GraphBuilder graphBuilder;   // Must already contain all cities in graphBuilder.graph
+    public GraphBuilder graphBuilder;
+    public GameObject weightPrefab;
     [Header("Parent for generated paths")]
-    public Transform parentPaths;       // Public object to choose as parent for all paths
+    public Transform parentPaths;
     [Header("Line Settings")]
     [Tooltip("Maximum arc distance to create a connection (in Unity units)")]
     public float thresholdDistance = 300f;
@@ -21,54 +24,63 @@ public class PathGenerator : MonoBehaviour
     public float sphereRadius = 10f;
     [Header("Line Material")]
     public Material lineMaterial;
+    [Tooltip("Nombre de connexions par ville (chemins les plus proches)")]
+    public int pathsPerCity = 1;
 
-    // TODO GROS PROBLEME POUR GENERER LES CHEMINS 
     public void GeneratePaths()
     {
-        if (graphBuilder == null)
+        if (graphBuilder == null || graphBuilder.graph == null || graphBuilder.graph.Count == 0)
         {
-            Debug.LogError("GraphBuilder is null!");
+            Debug.LogError("GraphBuilder ou graph non initialisé !");
             return;
-        }
-        if (graphBuilder.graph == null)
-        {
-            // If graph is not yet instantiated, create an empty one
-            graphBuilder.graph = new Dictionary<PointModel, Dictionary<PointModel, float>>();
-        }
-        if (graphBuilder.graph.Count == 0)
-        {
-            Debug.LogError("Graph is empty! Ensure that city objects are generated first.");
-            return;
-        }
-        else
-        {
-            Debug.Log("Graph is defined: " + graphBuilder.graph.Count + " cities found.");
         }
 
         List<PointModel> cities = new List<PointModel>(graphBuilder.graph.Keys);
-        // Loop through each pair of cities
-        for (int i = 0; i < cities.Count; i++)
-        {
-            for (int j = i + 1; j < cities.Count; j++)
-            {
-                PointModel cityA = cities[i];
-                PointModel cityB = cities[j];
+        HashSet<string> createdPaths = new HashSet<string>();
 
-                float distance = ComputeArcDistance(cityA.transform.position, cityB.transform.position);
-                if (distance <= thresholdDistance)
+        foreach (PointModel city in cities)
+        {
+            List<(PointModel city, float distance)> nearestCities = new List<(PointModel, float)>();
+
+            foreach (PointModel other in cities)
+            {
+                if (other == city) continue;
+
+                float distance = ComputeArcDistance(city.transform.position, other.transform.position);
+                nearestCities.Add((other, distance));
+            }
+
+            nearestCities.Sort((a, b) => a.distance.CompareTo(b.distance));
+
+            int connectionsMade = 0;
+            foreach (var (otherCity, distance) in nearestCities)
+            {
+                if (connectionsMade >= pathsPerCity)
+                    break;
+
+                string pathKey = GetPathKey(city, otherCity);
+                if (!createdPaths.Contains(pathKey))
                 {
-                    // Create the visual connection (arc) between the two cities
-                    CreatePathBetween(cityA, cityB, distance);
-                    
-                    // Add the connection to the graph in both directions
-                    if (!graphBuilder.graph[cityA].ContainsKey(cityB))
-                        graphBuilder.graph[cityA][cityB] = distance;
-                    if (!graphBuilder.graph[cityB].ContainsKey(cityA))
-                        graphBuilder.graph[cityB][cityA] = distance;
+                    CreatePathBetween(city, otherCity, distance);
+                    createdPaths.Add(pathKey);
+
+                    if (!graphBuilder.graph[city].ContainsKey(otherCity))
+                        graphBuilder.graph[city][otherCity] = distance;
+                    if (!graphBuilder.graph[otherCity].ContainsKey(city))
+                        graphBuilder.graph[otherCity][city] = distance;
+
+                    connectionsMade++;
                 }
             }
         }
     }
+
+
+    private string GetPathKey(PointModel a, PointModel b)
+    {
+        return a.name.CompareTo(b.name) < 0 ? $"{a.name}_{b.name}" : $"{b.name}_{a.name}";
+    }
+
 
     private float ComputeArcDistance(Vector3 posA, Vector3 posB)
     {
@@ -80,18 +92,23 @@ public class PathGenerator : MonoBehaviour
 
     private void CreatePathBetween(PointModel cityA, PointModel cityB, float distance)
     {
+        // si la ville est Manizales
+        // if (cityA.name == "Manizales" || cityB.name == "Manizales")
+        // {
+        //     Debug.Log("Création d'un chemin entre " + cityA.name + " et " + cityB.name);
+        // }
+        // On récupère la position des villes (logique)
         Vector3 startPos = cityA.transform.position;
         Vector3 endPos = cityB.transform.position;
-        List<Vector3> positions = new List<Vector3>();
 
-        // Get directions from the sphere center to the positions
+        // On calcule les points interpolés pour dessiner un arc, mais ceux-ci ne seront pas utilisés pour l'identification
+        List<Vector3> positions = new List<Vector3>();
         Vector3 startDir = (startPos - sphereCenter).normalized;
         Vector3 endDir = (endPos - sphereCenter).normalized;
         for (int i = 0; i <= lineSegmentCount; i++)
         {
             float t = (float)i / lineSegmentCount;
-            // Use spherical interpolation (Slerp) to follow the curvature of the sphere
-            Vector3 pointOnArc = sphereCenter + Vector3.Slerp(startDir, endDir, t) * sphereRadius;
+            Vector3 pointOnArc = sphereCenter + Vector3.Slerp(startDir, endDir, t) * (sphereRadius / 2f);
             positions.Add(pointOnArc);
         }
 
@@ -112,12 +129,9 @@ public class PathGenerator : MonoBehaviour
         lr.startWidth = lineWidth;
         lr.endWidth = lineWidth;
 
-        LineModel lm = lineGO.GetComponent<LineModel>();
-        if (lm == null)
-            lm = lineGO.AddComponent<LineModel>();
-        lm.SetCoordinates(positions[0], positions[positions.Count - 1]);
-        lm.SetWeight(distance, null); 
-
+        LineModel lm = lineGO.AddComponent<LineModel>();
+        lm.SetCoordinates(startPos, endPos);
+        lm.SetWeight(distance, weightPrefab);
         lm.cityA = cityA;
         lm.cityB = cityB;
 

@@ -16,6 +16,21 @@ public class DijkstraManager : MonoBehaviour
         PointModel start = gameManager.currentStart;
         PointModel end = gameManager.currentEnd;
         var graph = graphBuilder.graph;
+        if (graph == null || graph.Count == 0)
+        {
+            Debug.LogError("Graph is empty or not defined!");
+            return;
+        }
+        if (start == null || end == null)
+        {
+            Debug.LogError("Start or end point is not defined!");
+            return;
+        }
+        if (!graph.ContainsKey(start) || !graph.ContainsKey(end))
+        {
+            Debug.LogError("Start or end point is not in the graph!");
+            return;
+        }
 
         var distances = new Dictionary<PointModel, float>();
         var previous = new Dictionary<PointModel, PointModel>();
@@ -76,13 +91,12 @@ public class DijkstraManager : MonoBehaviour
             Debug.Log("Chemin trouvé : " + pathStr);
             Debug.Log("Coût total : " + distances[end]);
 
-            // Mettez en surbrillance le chemin en 3D.
             for (int i = 0; i < path.Count - 1; i++)
             {
                 LineModel line = graphBuilder.GetLineBetween(path[i], path[i + 1]);
                 if (line != null)
                 {
-                    line.SetHighlightColor(); // Exemple : couleur verte.
+                    line.SetHighlightColor();
                 }
                 else
                 {

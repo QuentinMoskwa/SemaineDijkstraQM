@@ -12,24 +12,13 @@ public class GeoJsonLoader : MonoBehaviour
     public GraphBuilder graphBuilder;
 
 
-    public void LoadGeoJson()
+    public FeatureCollection LoadGeoJson()
     {
         if (geoJsonFile == null)
         {
             Debug.LogError("Aucun fichier GeoJSON assigné !");
-            return;
+            return null;
         }
-        featureCollection = JsonConvert.DeserializeObject<FeatureCollection>(geoJsonFile.text);
-        if (featureCollection == null || featureCollection.Features == null)
-        {
-            Debug.LogError("Échec du parsing du GeoJSON.");
-        }
-        else
-        {
-            Debug.Log("GeoJSON chargé avec succès. Nombre de features : " + featureCollection.Features.Count);
-            graphBuilder.BuildGraphFromGeoJSON(geoJsonFile);
-        }
+        return featureCollection = JsonConvert.DeserializeObject<FeatureCollection>(geoJsonFile.text);
     }
-
-
 }
