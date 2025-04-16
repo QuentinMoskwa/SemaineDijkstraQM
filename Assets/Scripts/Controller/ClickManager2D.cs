@@ -14,7 +14,6 @@ public class ClickManager2D : MonoBehaviour
             if (hit.collider != null)
             {
                 GameObject clickedObject = hit.collider.gameObject;
-                Debug.Log("Clicked on point: " + clickedObject);
                 if (clickedObject.transform.tag == "Point")
                 {
                     uiManager.OpenPointMenu(clickedObject);

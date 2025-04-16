@@ -1,0 +1,336 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "properties": {
+          "id": "ville_lille",
+          "name": "Lille"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [3.0633, 50.6374]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "id": "ville_paris",
+          "name": "Paris"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [2.3522, 48.8566]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "id": "ville_strasbourg",
+          "name": "Strasbourg"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [7.7521, 48.5734]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "id": "ville_rennes",
+          "name": "Rennes"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-1.6778, 48.1173]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "id": "ville_nantes",
+          "name": "Nantes"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-1.5536, 47.2184]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "id": "ville_bordeaux",
+          "name": "Bordeaux"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-0.5792, 44.8378]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "id": "ville_toulouse",
+          "name": "Toulouse"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [1.4442, 43.6047]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "id": "ville_lyon",
+          "name": "Lyon"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [4.8357, 45.7640]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "id": "ville_marseille",
+          "name": "Marseille"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [5.3698, 43.2965]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "id": "ville_nice",
+          "name": "Nice"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [7.2620, 43.7102]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "id": "ville_ajaccio",
+          "name": "Ajaccio"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [8.7386, 41.9192]
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [[3.0633, 50.6374], [2.3522, 48.8566]]
+        },
+        "properties": {
+          "id": "Lille_Paris",
+          "weight": 220
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [[2.3522, 48.8566], [4.8357, 45.7640]]
+        },
+        "properties": {
+          "id": "Paris_Lyon",
+          "weight": 392
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [[3.0633, 50.6374], [7.7521, 48.5734]]
+        },
+        "properties": {
+          "id": "Lille_Strasbourg",
+          "weight": 400
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [[7.7521, 48.5734], [4.8357, 45.7640]]
+        },
+        "properties": {
+          "id": "Strasbourg_Lyon",
+          "weight": 400
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [[-1.5536, 47.2184], [4.8357, 45.7640]]
+        },
+        "properties": {
+          "id": "Nantes_Lyon",
+          "weight": 600
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [[3.0633, 50.6374], [-1.6778, 48.1173]]
+        },
+        "properties": {
+          "id": "Lille_Rennes",
+          "weight": 320
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [[2.3522, 48.8566], [-1.6778, 48.1173]]
+        },
+        "properties": {
+          "id": "Paris_Rennes",
+          "weight": 230
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [[2.3522, 48.8566], [7.7521, 48.5734]]
+        },
+        "properties": {
+          "id": "Paris_Strasbourg",
+          "weight": 450
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [[2.3522, 48.8566], [-1.5536, 47.2184]]
+        },
+        "properties": {
+          "id": "Paris_Nantes",
+          "weight": 380
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [[-1.6778, 48.1173], [-1.5536, 47.2184]]
+        },
+        "properties": {
+          "id": "Rennes_Nantes",
+          "weight": 100
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [[-1.5536, 47.2184], [-0.5792, 44.8378]]
+        },
+        "properties": {
+          "id": "Nantes_Bordeaux",
+          "weight": 200
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [[-0.5792, 44.8378], [1.4442, 43.6047]]
+        },
+        "properties": {
+          "id": "Bordeaux_Toulouse",
+          "weight": 250
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [[1.4442, 43.6047], [5.3698, 43.2965]]
+        },
+        "properties": {
+          "id": "Toulouse_Marseille",
+          "weight": 300
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [[1.4442, 43.6047], [4.8357, 45.7640]]
+        },
+        "properties": {
+          "id": "Toulouse_Lyon",
+          "weight": 350
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [[4.8357, 45.7640], [5.3698, 43.2965]]
+        },
+        "properties": {
+          "id": "Lyon_Marseille",
+          "weight": 300
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [[4.8357, 45.7640], [7.2620, 43.7102]]
+        },
+        "properties": {
+          "id": "Lyon_Nice",
+          "weight": 320
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [[5.3698, 43.2965], [7.2620, 43.7102]]
+        },
+        "properties": {
+          "id": "Marseille_Nice",
+          "weight": 200
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [[5.3698, 43.2965], [8.7386, 41.9192]]
+        },
+        "properties": {
+          "id": "Marseille_Ajaccio",
+          "weight": 220
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [[7.2620, 43.7102], [8.7386, 41.9192]]
+        },
+        "properties": {
+          "id": "Nice_Ajaccio",
+          "weight": 240
+        }
+      }
+    ]
+  }
+  
