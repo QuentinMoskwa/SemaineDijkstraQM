@@ -8,6 +8,8 @@ public class PointModel : MonoBehaviour
     public Color startColor = Color.green;
     public Color endColor = Color.red;
     public Color highlightColor = Color.yellow;
+    public Color visitingColor = Color.cyan;
+    public Color visitedColor = Color.blue;
     public string pointName = "Point";
     public enum PointState
     {
@@ -43,5 +45,14 @@ public class PointModel : MonoBehaviour
     {
         GetComponent<Renderer>().material.color = highlightColor;
     }
+    public void SetVisitingColor()
+    {
+        GetComponent<Renderer>().material.color = visitingColor;
+    }
+    public void SetVisitedColor()
+    {
+        GetComponent<Renderer>().material.color = visitedColor;
+    }
+    
 
 }

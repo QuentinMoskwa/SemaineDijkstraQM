@@ -14,7 +14,7 @@ public class ClickManager3D : MonoBehaviour
             if (Physics.Raycast(ray, out hit))
             {
                 GameObject clickedObject = hit.collider.gameObject;
-                Debug.Log("Clicked on: " + clickedObject.name);
+                // Debug.Log("Clicked on: " + clickedObject.name);
                 // Vérifier la présence d'un tag "Point" sur l'objet cliqué
                 if (clickedObject.CompareTag("Point"))
                 {

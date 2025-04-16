@@ -7,6 +7,8 @@ public class LineModel : MonoBehaviour
     public Color neutralColor = Color.gray;
     public Color validColor = Color.green;
     public Color invalidColor = Color.red;
+    public Color visitingColor = Color.cyan;
+    public Color visitedColor = Color.blue;
 
     public float weight;
     // For storing the endpoints (positions)
@@ -60,5 +62,15 @@ public class LineModel : MonoBehaviour
     public void SetHighlightColor()
     {
         GetComponent<Renderer>().material.color = validColor;
+    }
+
+    public void SetVisitingColor()
+    {
+        GetComponent<Renderer>().material.color = visitingColor;
+    }
+
+    public void SetVisitedColor()
+    {
+        GetComponent<Renderer>().material.color = visitedColor;
     }
 }
