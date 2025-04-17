@@ -10,6 +10,9 @@ public class UIManager : MonoBehaviour
     [Header("Prefab pour le menu")]
     public GameObject menuPrefab;
     public TextMeshProUGUI cityNameText;
+    public TextMeshProUGUI startCityText;
+    public TextMeshProUGUI endCityText;
+    public TextMeshProUGUI finalDistanceText;
     public PointModel selectedPoint;
     public PointModel previousPoint;
     public GameObject startButton;
@@ -23,7 +26,7 @@ public class UIManager : MonoBehaviour
         {
             Debug.LogError("GameManager not found in the scene.");
         }
-        ClosePointMenu();
+        HideEverything();
     }
 
 
@@ -60,8 +63,14 @@ public class UIManager : MonoBehaviour
         {
             gameManager.currentStart.SetNeutralColor();
         }
+        if (!resetButton.activeSelf)
+        {
+            resetButton.SetActive(true);
+        }
         gameManager.SetCurrentStart(selectedPoint);
         selectedPoint.SetStartColor();
+        SetStartCityText(selectedPoint.pointName);
+        CheckIfStartAndEndSet();
     }
 
     public void SetAsEnd()
@@ -70,8 +79,22 @@ public class UIManager : MonoBehaviour
         {
             gameManager.currentEnd.SetNeutralColor();
         }
+        if(!resetButton.activeSelf)
+        {
+            resetButton.SetActive(true);
+        }
         gameManager.SetCurrentEnd(selectedPoint);
         selectedPoint.SetEndColor();
+        SetEndCityText(selectedPoint.pointName);
+        CheckIfStartAndEndSet();
+    }
+
+    void CheckIfStartAndEndSet()
+    {
+        if (gameManager.currentStart != null && gameManager.currentEnd != null)
+        {
+            ShowEverything();
+        }
     }
 
     public void HideStart()
@@ -112,9 +135,34 @@ public class UIManager : MonoBehaviour
     }
     public void HideEverything()
     {
+        finalDistanceText.transform.parent.gameObject.SetActive(false);
         startButton.SetActive(false);
         resetButton.SetActive(false);
         stepByStepButton.SetActive(false);
+        menuPrefab.SetActive(false);
+        ClearCityText();
+    }
+
+    public void ShowFinalDistance(float distance)
+    {
+        finalDistanceText.transform.parent.gameObject.SetActive(true);
+        finalDistanceText.text = "Distance : " + distance.ToString("F2") + " km";
+    }
+
+    public void SetStartCityText(string cityName)
+    {
+        startCityText.text = cityName;
+    }
+
+    public void SetEndCityText(string cityName)
+    {
+        endCityText.text = cityName;
+    }
+
+    public void ClearCityText()
+    {
+        startCityText.text = "???";
+        endCityText.text = "???";
     }
 
 }
