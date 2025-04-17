@@ -10,8 +10,9 @@ public class UIManager : MonoBehaviour
     [Header("Prefab pour le menu")]
     public GameObject menuPrefab;
     public TextMeshProUGUI cityNameText;
-    public TextMeshProUGUI villeDepartText;
-    public TextMeshProUGUI villeArriveeText;
+    public TextMeshProUGUI startCityText;
+    public TextMeshProUGUI endCityText;
+    public TextMeshProUGUI finalDistanceText;
     public PointModel selectedPoint;
     public PointModel previousPoint;
     public GameObject startButton;
@@ -134,6 +135,7 @@ public class UIManager : MonoBehaviour
     }
     public void HideEverything()
     {
+        finalDistanceText.transform.parent.gameObject.SetActive(false);
         startButton.SetActive(false);
         resetButton.SetActive(false);
         stepByStepButton.SetActive(false);
@@ -141,20 +143,26 @@ public class UIManager : MonoBehaviour
         ClearCityText();
     }
 
+    public void ShowFinalDistance(float distance)
+    {
+        finalDistanceText.transform.parent.gameObject.SetActive(true);
+        finalDistanceText.text = "Distance : " + distance.ToString("F2") + " km";
+    }
+
     public void SetStartCityText(string cityName)
     {
-        villeDepartText.text = cityName;
+        startCityText.text = cityName;
     }
 
     public void SetEndCityText(string cityName)
     {
-        villeArriveeText.text = cityName;
+        endCityText.text = cityName;
     }
 
     public void ClearCityText()
     {
-        villeDepartText.text = "???";
-        villeArriveeText.text = "???";
+        startCityText.text = "???";
+        endCityText.text = "???";
     }
 
 }

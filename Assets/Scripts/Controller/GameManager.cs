@@ -19,6 +19,12 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        if(dijkstraManager != null)
+        {
+            dijkstraManager.OnDijkstraComplete += HandleDijkstraComplete;
+        }
+        
+
         geoJsonObjectCreator.CreateObjectsFromGeoJson(needToGeneratePath);
         if(needToGeneratePath)
         {
@@ -30,6 +36,12 @@ public class GameManager : MonoBehaviour
             graphBuilder.BuildGraphFromGeoJson();
         }
     }
+
+    private void HandleDijkstraComplete(float finalDistance)
+    {
+        uiManager.ShowFinalDistance(finalDistance);
+    }
+
 
     public void SetCurrentStart(PointModel point)
     {

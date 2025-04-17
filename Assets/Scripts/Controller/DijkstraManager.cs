@@ -10,6 +10,10 @@ public class DijkstraManager : MonoBehaviour
 
     [Header("Mode Debug & Step-by-Step")]
     public bool nextStep = false;
+    float finalDistance = 0f;
+    public delegate void OnDijkstraCompleteHandler(float finalDistance);
+    public event OnDijkstraCompleteHandler OnDijkstraComplete;
+
 
 
     public void ComputePath()
@@ -97,6 +101,7 @@ public class DijkstraManager : MonoBehaviour
             pathStr = pathStr.TrimEnd(' ', '→');
             UnityEngine.Debug.Log("Chemin trouvé : " + pathStr);
             UnityEngine.Debug.Log("Coût total : " + distances[end]);
+            finalDistance = ConvertUnityDistanceToRealKm(distances[end]);
 
             for (int i = 0; i < path.Count - 1; i++)
             {
@@ -120,6 +125,7 @@ public class DijkstraManager : MonoBehaviour
         {
             UnityEngine.Debug.LogWarning("Aucun chemin trouvé entre " + start.name + " et " + end.name);
         }
+        OnDijkstraComplete?.Invoke(finalDistance);
     }
 
     public void ComputePathStepByStep()
@@ -217,6 +223,7 @@ public class DijkstraManager : MonoBehaviour
             string pathStr = string.Join(" → ", path.ConvertAll(p => p.name));
             UnityEngine.Debug.Log("Chemin trouvé : " + pathStr);
             UnityEngine.Debug.Log("Coût total : " + distances[end]);
+            finalDistance = ConvertUnityDistanceToRealKm(distances[end]);
 
             for (int i = 0; i < path.Count - 1; i++)
             {
@@ -235,6 +242,8 @@ public class DijkstraManager : MonoBehaviour
         {
             UnityEngine.Debug.LogWarning("Aucun chemin trouvé entre " + start.name + " et " + end.name);
         }
+        OnDijkstraComplete?.Invoke(finalDistance);
+
     }
 
     public void StopDijkstra()
@@ -249,6 +258,12 @@ public class DijkstraManager : MonoBehaviour
         {
             city.SetNeutralColor();
         }
+        finalDistance = 0f;
+    }
+
+    public float GetFinalDistance()
+    {
+        return finalDistance;
     }
 
     
@@ -256,4 +271,12 @@ public class DijkstraManager : MonoBehaviour
     {
         nextStep = true;
     }
+
+    private float ConvertUnityDistanceToRealKm(float unityDistance)
+    {
+        float realEarthRadiusKm = 6371f;
+        float unityRadius = graphBuilder.earthDiameter / 2f;
+        return (unityDistance / unityRadius) * realEarthRadiusKm;
+    }
+
 }
