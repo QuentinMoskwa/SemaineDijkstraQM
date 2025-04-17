@@ -1,24 +1,51 @@
 using UnityEngine;
 using Newtonsoft.Json;
-using GeoJSONModel; // Assurez-vous que vos classes modèle (FeatureCollection, Feature, etc.) sont dans ce namespace
+using System.IO;
+using GeoJSONModel;
 
 public class GeoJsonLoader : MonoBehaviour
 {
-    [Header("Fichier GeoJSON")]
-    public TextAsset geoJsonFile;
+    [Header("Nom du fichier JSON (sans extension)")]
+    string fileName = "GeoJson"; // sans .json
+
+    [Tooltip("Utiliser StreamingAssets (true) ou persistentDataPath (false)")]
+    public bool useStreamingAssets = true;
 
     [HideInInspector]
     public FeatureCollection featureCollection;
-    public GraphBuilder graphBuilder;
 
+    public GraphBuilder graphBuilder;
 
     public FeatureCollection LoadGeoJson()
     {
-        if (geoJsonFile == null)
+        string path;
+
+        if (useStreamingAssets)
         {
-            Debug.LogError("Aucun fichier GeoJSON assigné !");
+            path = Path.Combine(Application.streamingAssetsPath, fileName + ".json");
+        }
+        else
+        {
+            path = Path.Combine(Application.persistentDataPath, fileName + ".json");
+        }
+
+        if (!File.Exists(path))
+        {
+            Debug.LogError($"Le fichier JSON n'existe pas à ce chemin : {path}");
             return null;
         }
-        return featureCollection = JsonConvert.DeserializeObject<FeatureCollection>(geoJsonFile.text);
+
+        try
+        {
+            string json = File.ReadAllText(path);
+            featureCollection = JsonConvert.DeserializeObject<FeatureCollection>(json);
+            Debug.Log("GeoJSON chargé depuis : " + path);
+            return featureCollection;
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError("Erreur lors du chargement du GeoJSON : " + ex.Message);
+            return null;
+        }
     }
 }
