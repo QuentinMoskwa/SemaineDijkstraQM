@@ -10,6 +10,8 @@ public class UIManager : MonoBehaviour
     [Header("Prefab pour le menu")]
     public GameObject menuPrefab;
     public TextMeshProUGUI cityNameText;
+    public TextMeshProUGUI villeDepartText;
+    public TextMeshProUGUI villeArriveeText;
     public PointModel selectedPoint;
     public PointModel previousPoint;
     public GameObject startButton;
@@ -24,6 +26,7 @@ public class UIManager : MonoBehaviour
             Debug.LogError("GameManager not found in the scene.");
         }
         ClosePointMenu();
+        ClearCityText();
     }
 
 
@@ -62,6 +65,7 @@ public class UIManager : MonoBehaviour
         }
         gameManager.SetCurrentStart(selectedPoint);
         selectedPoint.SetStartColor();
+        SetStartCityText(selectedPoint.pointName);
     }
 
     public void SetAsEnd()
@@ -72,6 +76,7 @@ public class UIManager : MonoBehaviour
         }
         gameManager.SetCurrentEnd(selectedPoint);
         selectedPoint.SetEndColor();
+        SetEndCityText(selectedPoint.pointName);
     }
 
     public void HideStart()
@@ -115,6 +120,23 @@ public class UIManager : MonoBehaviour
         startButton.SetActive(false);
         resetButton.SetActive(false);
         stepByStepButton.SetActive(false);
+        ClearCityText();
+    }
+
+    public void SetStartCityText(string cityName)
+    {
+        villeDepartText.text = cityName;
+    }
+
+    public void SetEndCityText(string cityName)
+    {
+        villeArriveeText.text = cityName;
+    }
+
+    public void ClearCityText()
+    {
+        villeDepartText.text = "???";
+        villeArriveeText.text = "???";
     }
 
 }

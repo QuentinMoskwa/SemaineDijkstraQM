@@ -82,6 +82,7 @@ public class GameManager : MonoBehaviour
     public void OnResetButtonClicked()
     {
         uiManager.ClosePointMenu();
+        uiManager.ClearCityText();
         uiManager.ShowEverything();
         dijkstraManager.StopDijkstra();
         dijkstraRunning = false;
