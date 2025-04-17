@@ -10,9 +10,11 @@ public class GameManager : MonoBehaviour
     public GeoJsonObjectCreator geoJsonObjectCreator;
     public PathGenerator pathGenerator;
     public GraphBuilder graphBuilder;
+    public UIManager uiManager;
     public bool needToGeneratePath = false;
     public PointModel currentStart;
     public PointModel currentEnd;
+    bool dijkstraRunning = false;
 
 
     void Start()
@@ -39,13 +41,32 @@ public class GameManager : MonoBehaviour
         currentEnd = point;
     }
 
-    public void OnStartButtonClicked()
+    public void OnStartButtonClicked(bool isStepByStep)
     {
         if (currentStart != null && currentEnd != null)
         {
             if (dijkstraManager != null)
             {
-                dijkstraManager.ComputePath();
+                uiManager.ShowReset();
+                if(!isStepByStep)
+                {
+                    dijkstraManager.ComputePath();
+                    uiManager.HideStepByStep();
+                }
+                else
+                {
+                    if(!dijkstraRunning)
+                    {
+                        uiManager.HideStart();
+                        uiManager.ShowReset();
+                        dijkstraRunning = true;
+                        dijkstraManager.ComputePathStepByStep();
+                    }
+                    else
+                    {
+                        dijkstraManager.OnNextStepButtonClicked();
+                    }
+                }
             }
             else
             {
@@ -57,22 +78,12 @@ public class GameManager : MonoBehaviour
             Debug.LogWarning("Point de départ ou d'arrivée non défini.");
         }
     }
-    public void OnStepByStepButtonClicked()
+
+    public void OnResetButtonClicked()
     {
-        if (currentStart != null && currentEnd != null)
-        {
-            if (dijkstraManager != null)
-            {
-                dijkstraManager.ComputePathStepByStep();
-            }
-            else
-            {
-                Debug.LogError("dijkstraManager not found in the scene.");
-            }
-        }
-        else
-        {
-            Debug.LogWarning("Point de départ ou d'arrivée non défini.");
-        }
+        uiManager.ClosePointMenu();
+        uiManager.ShowEverything();
+        dijkstraManager.StopDijkstra();
+        dijkstraRunning = false;
     }
 }
