@@ -10,7 +10,6 @@ public class DijkstraManager : MonoBehaviour
 
     [Header("Mode Debug & Step-by-Step")]
     public bool nextStep = false;
-    public bool algorithmIsRunning = false;
 
 
     public void ComputePath()
@@ -235,6 +234,20 @@ public class DijkstraManager : MonoBehaviour
         else
         {
             UnityEngine.Debug.LogWarning("Aucun chemin trouvé entre " + start.name + " et " + end.name);
+        }
+    }
+
+    public void StopDijkstra()
+    {
+        StopAllCoroutines();
+        nextStep = false;
+        foreach (var line in graphBuilder.lines)
+        {
+            line.SetNeutralColor();
+        }
+        foreach (var city in graphBuilder.graph.Keys)
+        {
+            city.SetNeutralColor();
         }
     }
 

@@ -12,6 +12,9 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI cityNameText;
     public PointModel selectedPoint;
     public PointModel previousPoint;
+    public GameObject startButton;
+    public GameObject resetButton;
+    public GameObject stepByStepButton;
 
     void Start()
     {
@@ -46,7 +49,7 @@ public class UIManager : MonoBehaviour
         previousPoint = selectedPoint;
     }
 
-    void ClosePointMenu()
+    public void ClosePointMenu()
     {
         menuPrefab.SetActive(false);
     }
@@ -69,6 +72,49 @@ public class UIManager : MonoBehaviour
         }
         gameManager.SetCurrentEnd(selectedPoint);
         selectedPoint.SetEndColor();
+    }
+
+    public void HideStart()
+    {
+        startButton.SetActive(false);
+    }
+
+    public void ShowStart()
+    {
+        startButton.SetActive(true);
+    }
+
+    public void HideReset()
+    {
+        resetButton.SetActive(false);
+    }
+
+    public void ShowReset()
+    {
+        resetButton.SetActive(true);
+    }
+
+    public void HideStepByStep()
+    {
+        stepByStepButton.SetActive(false);
+    }
+
+    public void ShowStepByStep()
+    {
+        stepByStepButton.SetActive(true);
+    }
+
+    public void ShowEverything()
+    {
+        startButton.SetActive(true);
+        resetButton.SetActive(true);
+        stepByStepButton.SetActive(true);
+    }
+    public void HideEverything()
+    {
+        startButton.SetActive(false);
+        resetButton.SetActive(false);
+        stepByStepButton.SetActive(false);
     }
 
 }
