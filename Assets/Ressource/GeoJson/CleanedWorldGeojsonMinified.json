@@ -1,0 +1,86 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Bombo"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          32.5332995248648,
+          0.583299105614628
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Fort Portal"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          30.2750016159794,
+          0.671004121125236
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Potenza"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          15.7989964956403,
+          40.6420021300982
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [32.5332995248648, 0.583299105614628],
+          [30.2750016159794, 0.671004121125236]
+        ]
+      },
+      "properties": {
+        "from": "Bombo",
+        "to": "Fort Portal"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [32.5332995248648, 0.583299105614628],
+          [15.7989964956403, 40.6420021300982]
+        ]
+      },
+      "properties": {
+        "from": "Bombo",
+        "to": "Potenza"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [30.2750016159794, 0.671004121125236],
+          [15.7989964956403, 40.6420021300982]
+        ]
+      },
+      "properties": {
+        "from": "Fort Portal",
+        "to": "Potenza"
+      }
+    }
+  ]
+}

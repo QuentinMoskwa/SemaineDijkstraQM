@@ -1,0 +1,221 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "ville_lille",
+        "name": "Lille"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [32.7, 1239.7]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "ville_paris",
+        "name": "Paris"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-22.4, 622.3]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "ville_strasbourg",
+        "name": "Strasbourg"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [975.2, 659]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "ville_rennes",
+        "name": "Rennes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-823.5, 620.5]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "ville_nantes",
+        "name": "Nantes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-789, 248.9]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "ville_bordeaux",
+        "name": "Bordeaux"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-706.3, -392.9]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "ville_toulouse",
+        "name": "Toulouse"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-256.4, -870.9]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "ville_lyon",
+        "name": "Lyon"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [519, -196]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "ville_marseille",
+        "name": "Marseille"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [596, -904]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "ville_nice",
+        "name": "Nice"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [1003.7, -808.9]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "ville_ajaccio",
+        "name": "Ajaccio"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [1431.8, -1325.5]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "LineString", "coordinates": [[32.7, 1239.7], [-22.4, 622.3]] },
+      "properties": { "id": "Lille_Paris", "weight": 618.06 }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "LineString", "coordinates": [[-22.4, 622.3], [519, -196]] },
+      "properties": { "id": "Paris_Lyon", "weight": 465.73 }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "LineString", "coordinates": [[32.7, 1239.7], [975.2, 659]] },
+      "properties": { "id": "Lille_Strasbourg", "weight": 1104.63 }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "LineString", "coordinates": [[975.2, 659], [519, -196]] },
+      "properties": { "id": "Strasbourg_Lyon", "weight": 855.00 }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "LineString", "coordinates": [[-789, 248.9], [519, -196]] },
+      "properties": { "id": "Nantes_Lyon", "weight": 1308.45 }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "LineString", "coordinates": [[32.7, 1239.7], [-823.5, 620.5]] },
+      "properties": { "id": "Lille_Rennes", "weight": 1055.56 }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "LineString", "coordinates": [[-22.4, 622.3], [-823.5, 620.5]] },
+      "properties": { "id": "Paris_Rennes", "weight": 801.10 }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "LineString", "coordinates": [[-22.4, 622.3], [975.2, 659]] },
+      "properties": { "id": "Paris_Strasbourg", "weight": 997.84 }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "LineString", "coordinates": [[-22.4, 622.3], [-789, 248.9]] },
+      "properties": { "id": "Paris_Nantes", "weight": 845.84 }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "LineString", "coordinates": [[-823.5, 620.5], [-789, 248.9]] },
+      "properties": { "id": "Rennes_Nantes", "weight": 373.33 }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "LineString", "coordinates": [[-789, 248.9], [-706.3, -392.9]] },
+      "properties": { "id": "Nantes_Bordeaux", "weight": 647.45 }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "LineString", "coordinates": [[-706.3, -392.9], [-256.4, -870.9]] },
+      "properties": { "id": "Bordeaux_Toulouse", "weight": 656.09 }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "LineString", "coordinates": [[-256.4, -870.9], [596, -904]] },
+      "properties": { "id": "Toulouse_Marseille", "weight": 852.58 }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "LineString", "coordinates": [[-256.4, -870.9], [519, -196]] },
+      "properties": { "id": "Toulouse_Lyon", "weight": 1013.00 }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "LineString", "coordinates": [[519, -196], [596, -904]] },
+      "properties": { "id": "Lyon_Marseille", "weight": 712.78 }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "LineString", "coordinates": [[519, -196], [1003.7, -808.9]] },
+      "properties": { "id": "Lyon_Nice", "weight": 787.26 }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "LineString", "coordinates": [[596, -904], [1003.7, -808.9]] },
+      "properties": { "id": "Marseille_Nice", "weight": 421.60 }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "LineString", "coordinates": [[596, -904], [1431.8, -1325.5]] },
+      "properties": { "id": "Marseille_Ajaccio", "weight": 936.42 }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "LineString", "coordinates": [[1003.7, -808.9], [1431.8, -1325.5]] },
+      "properties": { "id": "Nice_Ajaccio", "weight": 509.73 }
+    }
+  ]
+}
