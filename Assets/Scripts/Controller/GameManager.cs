@@ -81,10 +81,10 @@ public class GameManager : MonoBehaviour
 
     public void OnResetButtonClicked()
     {
-        uiManager.ClosePointMenu();
-        uiManager.ClearCityText();
-        uiManager.ShowEverything();
+        uiManager.HideEverything();
         dijkstraManager.StopDijkstra();
         dijkstraRunning = false;
+        currentStart = null;
+        currentEnd = null;
     }
 }

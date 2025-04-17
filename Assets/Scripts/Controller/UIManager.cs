@@ -25,8 +25,7 @@ public class UIManager : MonoBehaviour
         {
             Debug.LogError("GameManager not found in the scene.");
         }
-        ClosePointMenu();
-        ClearCityText();
+        HideEverything();
     }
 
 
@@ -63,9 +62,14 @@ public class UIManager : MonoBehaviour
         {
             gameManager.currentStart.SetNeutralColor();
         }
+        if (!resetButton.activeSelf)
+        {
+            resetButton.SetActive(true);
+        }
         gameManager.SetCurrentStart(selectedPoint);
         selectedPoint.SetStartColor();
         SetStartCityText(selectedPoint.pointName);
+        CheckIfStartAndEndSet();
     }
 
     public void SetAsEnd()
@@ -74,9 +78,22 @@ public class UIManager : MonoBehaviour
         {
             gameManager.currentEnd.SetNeutralColor();
         }
+        if(!resetButton.activeSelf)
+        {
+            resetButton.SetActive(true);
+        }
         gameManager.SetCurrentEnd(selectedPoint);
         selectedPoint.SetEndColor();
         SetEndCityText(selectedPoint.pointName);
+        CheckIfStartAndEndSet();
+    }
+
+    void CheckIfStartAndEndSet()
+    {
+        if (gameManager.currentStart != null && gameManager.currentEnd != null)
+        {
+            ShowEverything();
+        }
     }
 
     public void HideStart()
@@ -120,6 +137,7 @@ public class UIManager : MonoBehaviour
         startButton.SetActive(false);
         resetButton.SetActive(false);
         stepByStepButton.SetActive(false);
+        menuPrefab.SetActive(false);
         ClearCityText();
     }
 
